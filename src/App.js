@@ -21,14 +21,14 @@ import Team from './pages/Team';
 import Facts from './pages/Facts';
 import Footer from './components/Footer/Footer';
 import './components/Styles/custom.scss';
-// import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFound';
+import Admin from './pages/Admin';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App() {
 
-
+function StaticPages() {
   return (
-      <div className="App">
-        <Spinner />
+    <>
         <Navbar />
         <div id="home"><Home /></div>
         <div id="video"><Vedio /></div>
@@ -37,9 +37,35 @@ function App() {
         <div id="services"><Services /></div>
         <div id="project"><Project /></div>
         <div id="team"><Team /></div>
-        <div id="footer"><Footer /></div>
-      </div>
+        <Footer />
+    </>
+  );
+}
 
+function AdminRoute() {
+  return (
+    <>
+      <Navbar /> {/* Dynamic Navbar */}
+      <Admin /> {/* AdminPage should be the only page */}
+      <Footer /> {/* Dynamic Footer */}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Admin Route */}
+        <Route path="/admin" element={<AdminRoute />} />
+        
+        {/* Static Pages Route */}
+        <Route path="/" element={<StaticPages />} />
+        
+        {/* Catch all other routes and show Not Found page */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   );
 }
 
