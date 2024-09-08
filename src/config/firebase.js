@@ -11,7 +11,6 @@ const firebaseConfig = {
     messagingSenderId: "1025201950578",
     appId: "1:1025201950578:web:0bf03a9503c74fd97b17eb"
   };
-
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
