@@ -24,6 +24,8 @@ import './components/Styles/custom.scss';
 import NotFound from './pages/NotFound';
 import Admin from './pages/Admin';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import Gallery from './pages/Gallery';
+import Album from './pages/Album';
 
 
 function StaticPages() {
@@ -52,12 +54,36 @@ function AdminRoute() {
   );
 }
 
+function GalleryRoute() {
+  return (
+    <>
+      <Gallery /> {/* AdminPage should be the only page */}
+    </>
+  );
+}
+function AlbumRoute() {
+  return (
+    <>
+      <Album /> {/* AdminPage should be the only page */}
+    </>
+  );
+}
+
 function App() {
   return (
     <Router>
       <Routes>
         {/* Admin Route */}
         <Route path="/admin" element={<AdminRoute />} />
+
+         {/* Gallery Route */}
+        <Route path="/gallery" element={<GalleryRoute />} />
+
+        
+         {/* Album Route */}
+         <Route path="/gallery/album/:id" element={<AlbumRoute />} />
+
+
         
         {/* Static Pages Route */}
         <Route path="/" element={<StaticPages />} />
