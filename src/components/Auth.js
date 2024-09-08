@@ -59,7 +59,8 @@ function Auth({ onSignIn, onSignOut }) {
         </div>
       ) : (
         <div>
-          <h2>Please LogIn to Manage</h2>
+          <h2>Please LogIn to Manage </h2>
+          <h2>Or Click "NotAdmin"</h2>
           <input
             type="email"
             placeholder="Email"
