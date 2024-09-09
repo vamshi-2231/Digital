@@ -49,20 +49,15 @@ const GalleryCardManager = ({ isLoading, setIsLoading, onMessage }) => {
       const albumImageUrls = [];
 
       if (files.coverPhoto) {
-        console.log("Uploading cover photo...");
         const coverImageUrls = await uploadImages([files.coverPhoto], "gallery", Date.now());
         coverImageUrl = coverImageUrls[0];
-        console.log("Cover photo URL:", coverImageUrl);
       }
 
       if (files.albumPhotos.length > 0) {
-        console.log("Uploading album photos...");
         const albumImageUrlsArray = await uploadImages(files.albumPhotos, "gallery", Date.now());
         albumImageUrls.push(...albumImageUrlsArray);
-        console.log("Album photos URLs:", albumImageUrls);
       }
 
-      // Ensure all required fields are provided
       await addDoc(collection(db, "gallery"), {
         title: newCard.title || "", // Provide default empty string if title is undefined
         coverImageUrl: coverImageUrl || "", // Provide default empty string if coverImageUrl is undefined
@@ -88,27 +83,26 @@ const GalleryCardManager = ({ isLoading, setIsLoading, onMessage }) => {
       }
 
       let coverImageUrl = updatedData.coverImageUrl || currentCard.coverImageUrl;
-      const albumImageUrls = [...(updatedData.albumImageUrls || currentCard.albumImageUrls)];
+      let albumImageUrls = [...currentCard.albumImageUrls]; // Preserve current album image URLs
 
+      // Upload new cover image if provided
       if (newCoverImage) {
-        console.log("Uploading new cover image...");
         const coverImageUrls = await uploadImages([newCoverImage], "gallery", id);
-        coverImageUrl = coverImageUrls[0];
-        console.log("New cover image URL:", coverImageUrl);
+        coverImageUrl = coverImageUrls[0]; // Replace the old cover image
       }
 
+      // Replace old album images with new ones if provided
       if (newAlbumImages.length > 0) {
-        console.log("Uploading new album images...");
+        albumImageUrls = []; // Clear the old album images
         const newAlbumImageUrls = await uploadImages(newAlbumImages, "gallery", id);
-        albumImageUrls.push(...newAlbumImageUrls); // Preserve existing album images and add new ones
-        console.log("New album images URLs:", albumImageUrls);
+        albumImageUrls.push(...newAlbumImageUrls); // Add only new album images
       }
 
       const docRef = doc(db, "gallery", id);
       await updateDoc(docRef, {
         ...updatedData,
-        coverImageUrl: coverImageUrl || currentCard.coverImageUrl, // Use existing or new coverImageUrl
-        albumImageUrls: albumImageUrls // Preserve existing album images and add new ones
+        coverImageUrl: coverImageUrl || currentCard.coverImageUrl, // Use the new or current coverImageUrl
+        albumImageUrls: albumImageUrls // Replace albumImageUrls with the new ones or keep the existing ones if no new images were uploaded
       });
 
       onMessage("Gallery card updated successfully.");

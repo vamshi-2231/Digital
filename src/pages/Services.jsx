@@ -19,7 +19,7 @@ export default function Services() {
                     <div className="position-relative">
                         <img className="img-fluid" src={service_1} alt="Service-1-img"></img>
                         <div className="service-overlay">
-                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href=""><i className="fa fa-link text-primary"></i></a>
+                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href="#/Gallery"><i className="fa fa-link text-primary"></i></a>
                         </div>
                     </div>
                     <div className="text-center p-4">
@@ -32,7 +32,7 @@ export default function Services() {
                     <div className="position-relative">
                         <img className="img-fluid" src={service_4} alt=""></img>
                         <div className="service-overlay">
-                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href=""><i className="fa fa-link text-primary"></i></a>
+                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href="#/Gallery"><i className="fa fa-link text-primary"></i></a>
                         </div>
                     </div>
                     <div className="text-center p-4">
@@ -45,7 +45,7 @@ export default function Services() {
                     <div className="position-relative">
                         <img className="img-fluid" src={service_3} alt=""></img>
                         <div className="service-overlay">
-                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href=""><i className="fa fa-link text-primary"></i></a>
+                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href="#/Gallery"><i className="fa fa-link text-primary"></i></a>
                         </div>
                     </div>
                     <div className="text-center p-4">
@@ -58,7 +58,7 @@ export default function Services() {
                     <div className="position-relative">
                         <img className="img-fluid" src={service_2} alt=""></img>
                         <div className="service-overlay">
-                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href=""><i className="fa fa-link text-primary"></i></a>
+                            <a className="btn btn-lg-square btn-outline-light rounded-circle" href="#/Gallery"><i className="fa fa-link text-primary"></i></a>
                         </div>
                     </div>
                     <div className="text-center p-4">

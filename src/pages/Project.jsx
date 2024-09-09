@@ -21,7 +21,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_5} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-5.jpg" data-lightbox="project">
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">
                                 Memory
                             </a>
                         </div>
@@ -29,7 +29,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_1} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-1.jpg" data-lightbox="project">
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">
                                 Wedding
                             </a>
                         </div>
@@ -41,7 +41,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_2} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-2.jpg" data-lightbox="project">
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">
                                 Portrait
                             </a>
                         </div>
@@ -49,7 +49,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_6} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-6.jpg" data-lightbox="project">
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">
                                 Travel
                             </a>
                         </div>
@@ -61,7 +61,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_7} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-7.jpg" data-lightbox="project">
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">
                                 Wedding
                             </a>
                         </div>
@@ -69,7 +69,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_3} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-3.jpg" data-lightbox="project">    
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">    
                                 Memory
                             </a>
                         </div>
@@ -81,7 +81,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_4} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-4.jpg" data-lightbox="project">
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">
                                 Fashion
                             </a>
                         </div>
@@ -89,7 +89,7 @@ export default function Project() {
                     <div className="col-12">
                         <div className="project-item">
                             <img className="img-fluid" src={project_8} alt=""></img>
-                            <a className="project-title h5 mb-0" href="img/project-8.jpg" data-lightbox="project">
+                            <a className="project-title h5 mb-0" href="#/Gallery" data-lightbox="project">
                                 Portrait
                             </a>
                         </div>
