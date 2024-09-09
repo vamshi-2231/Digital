@@ -1,0 +1,59 @@
+.gallery-card {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding inside the card */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%; /* Full width for mobile devices */
+    max-width: 300px; /* Max width for larger screens */
+    margin: 10px auto; /* Center card and add margin */
+    transition: transform 0.2s; /* Smooth scaling effect */
+    position: relative; /* Position for absolute elements like buttons */
+  }
+  
+  .gallery-card:hover {
+    transform: scale(1.05); /* Scale up on hover */
+  }
+  
+  .gallery-card-cover img {
+    width: 100%; /* Full width of the card */
+    height: 150px; /* Fixed height for cover image */
+    object-fit: cover; /* Cover the area with proper aspect ratio */
+    border-radius: 5px; /* Rounded corners for images */
+    margin-bottom: 10px; /* Space below the image */
+  }
+  
+  .gallery-card-buttons {
+    display: flex;
+    justify-content: space-between; /* Space out buttons */
+    margin-top: 10px; /* Space above the buttons */
+  }
+  
+  .gallery-card-buttons button {
+    padding: 5px 10px; /* Padding inside buttons */
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin: 0 5px; /* Margin between buttons */
+    width: 100px; /* Fixed button width */
+  }
+  
+  .gallery-card-buttons button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .gallery-card-album {
+    display: flex;
+    flex-wrap: wrap; /* Wrap images to the next line */
+    gap: 10px; /* Space between images */
+  }
+  
+  .gallery-card-album img {
+    width: calc(50% - 10px); /* Two images per row with spacing */
+    height: 100px; /* Fixed height for album images */
+    object-fit: cover; /* Cover the area with proper aspect ratio */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
