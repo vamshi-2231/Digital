@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../config/firebase";
+import { db, storage } from "../../../config/firebase";
 import GalleryInputCard from "./GalleryInputCard";
 import GalleryCard from "./GalleryCard"; // Ensure you have a GalleryCard component
 

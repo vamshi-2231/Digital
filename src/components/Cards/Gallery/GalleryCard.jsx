@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './GalleryCard.css';
+import '../Card_styles/GalleryCard.css';
 
 const GalleryCard = ({ item, onEdit, onDelete }) => {
   const [showAlbum, setShowAlbum] = useState(false);
