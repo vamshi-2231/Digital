@@ -7,11 +7,13 @@ import ServiceInputCard from "./Input_Cards/ServiceInputCard";
 import HomeInputCard from "./Input_Cards/HomeInputCard";
 import TeamInputCard from "./Input_Cards/TeamInputCard";
 import FeatureInputCard from "./Input_Cards/FeatureInputCard";
+import VideoInputCard from "./Input_Cards/VideoInputCard"; // Import VideoInputCard
 import AboutCard from "./AboutCard";
 import ServiceCard from "./ServiceCard";
 import HomeCard from "./HomeCard";
 import TeamCard from "./TeamCard";
 import FeatureCard from "./FeatureCard";
+import VideoCard from "./VideoCard"; // Import VideoCard
 
 const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
   const [cards, setCards] = useState({
@@ -19,7 +21,8 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
     service: [],
     home: [],
     team: [],
-    features: []
+    features: [],
+    videos: [] // Add state for videos
   });
   const [currentCardType, setCurrentCardType] = useState(null);
 
@@ -95,6 +98,7 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
         <button onClick={() => setCurrentCardType("service")}>Manage Services</button>
         <button onClick={() => setCurrentCardType("about")}>Manage About</button>
         <button onClick={() => setCurrentCardType("home")}>Manage Home Photos</button>
+        <button onClick={() => setCurrentCardType("videos")}>Manage Videos</button> {/* New button for Videos */}
       </div>
 
       <div className="card-manager-content">
@@ -177,6 +181,23 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
                   onDelete={() => handleDelete("home", card.id)}
                   onMessage={onMessage}
                   fetchCollection={() => fetchCollectionData("home")}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {currentCardType === "videos" && (
+          <>
+            <VideoInputCard onCreate={(newCard) => handleCreate("videos", newCard)} isLoading={isLoading} />
+            <div className="card-list">
+              {cards.videos.map((card) => (
+                <VideoCard
+                  key={card.id}
+                  item={card}
+                  onDelete={() => handleDelete("videos", card.id)}
+                  onMessage={onMessage}
+                  fetchCollection={() => fetchCollectionData("videos")}
                 />
               ))}
             </div>

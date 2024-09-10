@@ -4,6 +4,7 @@ const GalleryInputCard = ({ onCreate, isLoading }) => {
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [albumPhotos, setAlbumPhotos] = useState([]);
   const [title, setTitle] = useState("");
+  const [name, setName] = useState(""); // New state for name
   const [errorMessage, setErrorMessage] = useState("");
   const [coverPreview, setCoverPreview] = useState(null);
   const [albumPreviews, setAlbumPreviews] = useState([]);
@@ -54,7 +55,7 @@ const GalleryInputCard = ({ onCreate, isLoading }) => {
       coverPhoto,
       albumPhotos,
     };
-    onCreate({ title }, files);
+    onCreate({ title, name }, files); // Include name in the submission
   };
 
   return (
@@ -67,6 +68,16 @@ const GalleryInputCard = ({ onCreate, isLoading }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter gallery title"
+        />
+      </div>
+
+      <div className="input-field">
+        <label>Name</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Enter gallery name"
         />
       </div>
 

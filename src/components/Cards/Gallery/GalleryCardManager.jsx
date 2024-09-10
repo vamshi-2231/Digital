@@ -3,7 +3,7 @@ import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../../config/firebase";
 import GalleryInputCard from "./GalleryInputCard";
-import GalleryCard from "./GalleryCard"; // Ensure you have a GalleryCard component
+import GalleryCard from "./GalleryCard";
 
 const GalleryCardManager = ({ isLoading, setIsLoading, onMessage }) => {
   const [galleryCards, setGalleryCards] = useState([]);
@@ -59,9 +59,10 @@ const GalleryCardManager = ({ isLoading, setIsLoading, onMessage }) => {
       }
 
       await addDoc(collection(db, "gallery"), {
-        title: newCard.title || "", // Provide default empty string if title is undefined
-        coverImageUrl: coverImageUrl || "", // Provide default empty string if coverImageUrl is undefined
-        albumImageUrls: albumImageUrls || [] // Provide default empty array if albumImageUrls is undefined
+        title: newCard.title || "",
+        name: newCard.name || "",
+        coverImageUrl: coverImageUrl || "",
+        albumImageUrls: albumImageUrls || []
       });
 
       onMessage("Gallery card created successfully.");
@@ -83,26 +84,24 @@ const GalleryCardManager = ({ isLoading, setIsLoading, onMessage }) => {
       }
 
       let coverImageUrl = updatedData.coverImageUrl || currentCard.coverImageUrl;
-      let albumImageUrls = [...currentCard.albumImageUrls]; // Preserve current album image URLs
+      let albumImageUrls = [...currentCard.albumImageUrls];
 
-      // Upload new cover image if provided
       if (newCoverImage) {
         const coverImageUrls = await uploadImages([newCoverImage], "gallery", id);
-        coverImageUrl = coverImageUrls[0]; // Replace the old cover image
+        coverImageUrl = coverImageUrls[0];
       }
 
-      // Replace old album images with new ones if provided
       if (newAlbumImages.length > 0) {
-        albumImageUrls = []; // Clear the old album images
+        albumImageUrls = [];
         const newAlbumImageUrls = await uploadImages(newAlbumImages, "gallery", id);
-        albumImageUrls.push(...newAlbumImageUrls); // Add only new album images
+        albumImageUrls.push(...newAlbumImageUrls);
       }
 
       const docRef = doc(db, "gallery", id);
       await updateDoc(docRef, {
         ...updatedData,
-        coverImageUrl: coverImageUrl || currentCard.coverImageUrl, // Use the new or current coverImageUrl
-        albumImageUrls: albumImageUrls // Replace albumImageUrls with the new ones or keep the existing ones if no new images were uploaded
+        coverImageUrl: coverImageUrl || currentCard.coverImageUrl,
+        albumImageUrls: albumImageUrls
       });
 
       onMessage("Gallery card updated successfully.");
@@ -129,87 +128,22 @@ const GalleryCardManager = ({ isLoading, setIsLoading, onMessage }) => {
     }
   };
 
-  const startEditing = (card) => {
-    setEditingCard(card);
-    setUpdatedData(card);
-    setNewCoverImage(null);
-    setNewAlbumImages([]);
-  };
-
-  const handleUpdateChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.name === "coverPhoto") {
-      setNewCoverImage(e.target.files[0]);
-    } else if (e.target.name === "albumPhotos") {
-      setNewAlbumImages([...e.target.files]);
-    }
-  };
-
-  const handleUpdateSubmit = async () => {
-    if (editingCard) {
-      await handleEdit(editingCard.id, updatedData);
-      setEditingCard(null);
-      setUpdatedData({});
-      setNewCoverImage(null);
-      setNewAlbumImages([]);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingCard(null);
-    setUpdatedData({});
-    setNewCoverImage(null);
-    setNewAlbumImages([]);
-  };
-
   return (
-    <div className="gallery-card-manager">
+    <div>
       <GalleryInputCard
         onCreate={handleCreate}
         isLoading={isLoading}
+        onMessage={onMessage}
       />
-      <div className="card-list">
-        {galleryCards.map(card => (
-          <GalleryCard
-            key={card.id}
-            item={card}
-            onEdit={() => startEditing(card)}
-            onDelete={() => handleDelete(card.id)}
-          />
-        ))}
-      </div>
-
-      {editingCard && (
-        <div className="editing-form">
-          <h3>Editing {editingCard.title}</h3>
-          <input
-            type="text"
-            name="title"
-            value={updatedData.title || ""}
-            onChange={handleUpdateChange}
-            placeholder="Update title"
-          />
-          <input
-            type="file"
-            name="coverPhoto"
-            onChange={handleImageChange}
-          />
-          <input
-            type="file"
-            name="albumPhotos"
-            multiple
-            onChange={handleImageChange}
-          />
-          <button onClick={handleUpdateSubmit} disabled={isLoading}>
-            {isLoading ? "Updating..." : "Update"}
-          </button>
-          <button onClick={handleCancelEdit}>Cancel</button>
-        </div>
-      )}
+      {galleryCards.map(card => (
+        <GalleryCard
+          key={card.id}
+          item={card}
+          onDelete={handleDelete}
+          fetchCollection={fetchGalleryCards}
+          onMessage={onMessage}
+        />
+      ))}
     </div>
   );
 };

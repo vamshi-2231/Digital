@@ -1,4 +1,5 @@
 .input-card {
+    /* display: none; */
     background-color: #ffffff; /* White background for input card */
     border: 1px solid #ddd; /* Light border */
     border-radius: 8px;

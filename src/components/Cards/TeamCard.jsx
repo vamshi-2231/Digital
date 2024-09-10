@@ -2,13 +2,24 @@ import React, { useState } from "react";
 import { updateDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../config/firebase";
-import '../Cards/Card_styles/Card.css'
+import '../Cards/Card_styles/Card.css';
 
 const TeamCard = ({ item, onDelete, fetchCollection, onMessage }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedData, setUpdatedData] = useState({ name: item.name, role: item.role });
+  const [updatedData, setUpdatedData] = useState({
+    name: item.name,
+    profession: item.profession,
+    description: item.description || "",
+  });
   const [newCoverImage, setNewCoverImage] = useState(null);
+  const [coverImagePreview, setCoverImagePreview] = useState(item.coverImageUrl || null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setNewCoverImage(file);
+    setCoverImagePreview(URL.createObjectURL(file)); // Display image preview
+  };
 
   const handleEditSubmit = async () => {
     setIsLoading(true);
@@ -45,25 +56,38 @@ const TeamCard = ({ item, onDelete, fetchCollection, onMessage }) => {
             type="text"
             value={updatedData.name}
             onChange={(e) => setUpdatedData({ ...updatedData, name: e.target.value })}
+            placeholder="Name"
           />
           <input
             type="text"
-            value={updatedData.role}
-            onChange={(e) => setUpdatedData({ ...updatedData, role: e.target.value })}
+            value={updatedData.profession}
+            onChange={(e) => setUpdatedData({ ...updatedData, profession: e.target.value })}
+            placeholder="Profession"
           />
-          <input type="file" onChange={(e) => setNewCoverImage(e.target.files[0])} />
-          <button onClick={handleEditSubmit} disabled={isLoading}>
-            {isLoading ? "Updating..." : "Update"}
-          </button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
+          <textarea
+            value={updatedData.description}
+            onChange={(e) => setUpdatedData({ ...updatedData, description: e.target.value })}
+            placeholder="Description"
+          />
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+          {coverImagePreview && <img src={coverImagePreview} alt="Image preview" className="image-preview" />}
+          <div className="button-group">
+            <button className="edit-button" onClick={handleEditSubmit} disabled={isLoading}>
+              {isLoading ? "Updating..." : "Update"}
+            </button>
+            <button className="edit-button" onClick={() => setIsEditing(false)}>Cancel</button>
+          </div>
         </>
       ) : (
         <>
           <h3>{item.name}</h3>
-          <p>{item.role}</p>
-          {item.coverImageUrl && <img src={item.coverImageUrl} alt={item.name} />}
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={() => onDelete(item.id)}>Delete</button>
+          <p>{item.profession}</p>
+          <p>{item.description}</p>
+          {item.coverImageUrl && <img src={item.coverImageUrl} alt={item.name} className="image-preview" />}
+          <div className="button-group">
+            <button className="edit-button" onClick={() => setIsEditing(true)}>Edit</button>
+            <button className="delete-button" onClick={() => onDelete(item.id)}>Delete</button>
+          </div>
         </>
       )}
     </div>
