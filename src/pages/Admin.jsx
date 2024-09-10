@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { auth } from "../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import CardManager from "../components/Cards/CardManager";
-import GalleryCardManager from "../components/Cards/GalleryCardManager"; // Import the new GalleryCardManager component
+import GalleryCardManager from "../components/Cards/Gallery/GalleryCardManager";
 import Auth from "../components/Auth";
-import "./Admin.css";
+import "./Styles/Admin.css";
 
 function AdminPage() {
   const [user, setUser] = useState(null);

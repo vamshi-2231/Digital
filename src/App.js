@@ -8,7 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './lib/animate/animate.min.css';
 import './lib/owlcarousel/assets/owl.carousel.min.css';
 import './lib/lightbox/css/lightbox.min.css';
-import './Style.css';
+import './pages/Styles/Style.css';
 
 import Navbar from './components/Navbar/Navbar';
 import Spinner from './components/Navbar/Spinner';

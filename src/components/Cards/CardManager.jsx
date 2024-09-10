@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../config/firebase";
-import AboutInputCard from "./AboutInputCard";
-import ServiceInputCard from "./ServiceInputCard";
-import HomeInputCard from "./HomeInputCard";
-import TeamInputCard from "./TeamInputCard";
-import FeatureInputCard from "./FeatureInputCard";
+import AboutInputCard from "./Input_Cards/AboutInputCard";
+import ServiceInputCard from "./Input_Cards/ServiceInputCard";
+import HomeInputCard from "./Input_Cards/HomeInputCard";
+import TeamInputCard from "./Input_Cards/TeamInputCard";
+import FeatureInputCard from "./Input_Cards/FeatureInputCard";
 import AboutCard from "./AboutCard";
 import ServiceCard from "./ServiceCard";
 import HomeCard from "./HomeCard";
@@ -21,40 +21,24 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
     team: [],
     features: []
   });
-  const [currentCardType, setCurrentCardType] = useState("team");
-  const [editingCard, setEditingCard] = useState(null);
-  const [updatedData, setUpdatedData] = useState({});
-  const [newCoverImage, setNewCoverImage] = useState(null);
+  const [currentCardType, setCurrentCardType] = useState(null);
 
   useEffect(() => {
-    fetchAllCollections();
-  }, []);
+    if (currentCardType) {
+      fetchCollectionData(currentCardType);
+    }
+  }, [currentCardType]);
 
-  const fetchCollectionData = async (collectionName, setter) => {
+  const fetchCollectionData = async (collectionName) => {
+    setIsLoading(true);
     try {
       const collectionRef = collection(db, collectionName);
       const data = await getDocs(collectionRef);
       const filteredData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setter(filteredData);
+      setCards((prev) => ({ ...prev, [collectionName]: filteredData }));
     } catch (err) {
       console.error(`Error fetching ${collectionName} data:`, err);
       onMessage(`Error fetching ${collectionName} data.`);
-    }
-  };
-
-  const fetchAllCollections = async () => {
-    setIsLoading(true);
-    try {
-      await Promise.all([
-        fetchCollectionData("team", (data) => setCards((prev) => ({ ...prev, team: data }))),
-        fetchCollectionData("features", (data) => setCards((prev) => ({ ...prev, features: data }))),
-        fetchCollectionData("services", (data) => setCards((prev) => ({ ...prev, service: data }))),
-        fetchCollectionData("about", (data) => setCards((prev) => ({ ...prev, about: data }))),
-        fetchCollectionData("home", (data) => setCards((prev) => ({ ...prev, home: data })))
-      ]);
-    } catch (err) {
-      onMessage("Error fetching collections.");
-      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -80,33 +64,9 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
       });
 
       onMessage(`${type} created successfully.`);
-      fetchCollectionData(type, (data) => setCards((prev) => ({ ...prev, [type]: data })));
+      fetchCollectionData(type);
     } catch (err) {
       onMessage(`Error creating ${type}.`);
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleEdit = async (type, id, updatedData) => {
-    setIsLoading(true);
-    try {
-      let coverImageUrl = updatedData.coverImageUrl || null;
-      if (newCoverImage) {
-        coverImageUrl = await uploadImage(newCoverImage, type, id);
-      }
-
-      const docRef = doc(db, type, id);
-      await updateDoc(docRef, {
-        ...updatedData,
-        coverImageUrl
-      });
-
-      onMessage(`${type} updated successfully.`);
-      fetchCollectionData(type, (data) => setCards((prev) => ({ ...prev, [type]: data })));
-    } catch (err) {
-      onMessage(`Error updating ${type}.`);
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -118,45 +78,13 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
     try {
       await deleteDoc(doc(db, type, id));
       onMessage(`${type} deleted successfully.`);
-      fetchCollectionData(type, (data) => setCards((prev) => ({ ...prev, [type]: data })));
+      fetchCollectionData(type);
     } catch (err) {
       onMessage(`Error deleting ${type}.`);
       console.error(err);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const startEditing = (card) => {
-    setEditingCard(card);
-    setUpdatedData(card);
-    setNewCoverImage(null);
-  };
-
-  const handleUpdateChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.name === "coverPhoto") {
-      setNewCoverImage(e.target.files[0]);
-    }
-  };
-
-  const handleUpdateSubmit = async () => {
-    if (editingCard) {
-      await handleEdit(currentCardType, editingCard.id, updatedData);
-      setEditingCard(null);
-      setUpdatedData({});
-      setNewCoverImage(null);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingCard(null);
-    setUpdatedData({});
-    setNewCoverImage(null);
   };
 
   return (
@@ -178,8 +106,9 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
                 <TeamCard
                   key={card.id}
                   item={card}
-                  onEdit={() => startEditing(card)}
                   onDelete={() => handleDelete("team", card.id)}
+                  onMessage={onMessage}
+                  fetchCollection={() => fetchCollectionData("team")}
                 />
               ))}
             </div>
@@ -194,8 +123,9 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
                 <FeatureCard
                   key={card.id}
                   item={card}
-                  onEdit={() => startEditing(card)}
                   onDelete={() => handleDelete("features", card.id)}
+                  onMessage={onMessage}
+                  fetchCollection={() => fetchCollectionData("features")}
                 />
               ))}
             </div>
@@ -210,8 +140,9 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
                 <ServiceCard
                   key={card.id}
                   item={card}
-                  onEdit={() => startEditing(card)}
                   onDelete={() => handleDelete("services", card.id)}
+                  onMessage={onMessage}
+                  fetchCollection={() => fetchCollectionData("services")}
                 />
               ))}
             </div>
@@ -226,8 +157,9 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
                 <AboutCard
                   key={card.id}
                   item={card}
-                  onEdit={() => startEditing(card)}
                   onDelete={() => handleDelete("about", card.id)}
+                  onMessage={onMessage}
+                  fetchCollection={() => fetchCollectionData("about")}
                 />
               ))}
             </div>
@@ -242,34 +174,13 @@ const CardManager = ({ isLoading, setIsLoading, onMessage }) => {
                 <HomeCard
                   key={card.id}
                   item={card}
-                  onEdit={() => startEditing(card)}
                   onDelete={() => handleDelete("home", card.id)}
+                  onMessage={onMessage}
+                  fetchCollection={() => fetchCollectionData("home")}
                 />
               ))}
             </div>
           </>
-        )}
-
-        {editingCard && (
-          <div className="editing-form">
-            <h3>Editing {editingCard.title}</h3>
-            <input
-              type="text"
-              name="title"
-              value={updatedData.title || ""}
-              onChange={handleUpdateChange}
-              placeholder="Update title"
-            />
-            <input
-              type="file"
-              name="coverPhoto"
-              onChange={handleImageChange}
-            />
-            <button onClick={handleUpdateSubmit} disabled={isLoading}>
-              {isLoading ? "Updating..." : "Update"}
-            </button>
-            <button onClick={handleCancelEdit}>Cancel</button>
-          </div>
         )}
       </div>
     </div>
