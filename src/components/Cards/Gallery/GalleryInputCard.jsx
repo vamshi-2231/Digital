@@ -60,7 +60,7 @@ const GalleryInputCard = ({ onCreate, isLoading }) => {
   };
 
   return (
-    <div className="input-card">
+    <div className="gallery-input-card">
       <h3>Add New Gallery</h3>
       <div className="input-field">
         <label>Title</label>
@@ -72,7 +72,7 @@ const GalleryInputCard = ({ onCreate, isLoading }) => {
         />
       </div>
 
-      <div className="input-field">
+      <div className="gallery-input-field">
         <label>Name</label>
         <input
           type="text"
@@ -82,7 +82,7 @@ const GalleryInputCard = ({ onCreate, isLoading }) => {
         />
       </div>
 
-      <div className="input-field">
+      <div className="gallery-input-field">
         <label>Cover Photo</label>
         <input type="file" onChange={handleCoverPhotoChange} />
         {coverPreview && (
@@ -96,7 +96,7 @@ const GalleryInputCard = ({ onCreate, isLoading }) => {
         )}
       </div>
 
-      <div className="input-field">
+      <div className="gallery-input-field">
         <label>Album Photos</label>
         <input type="file" multiple onChange={handleAlbumPhotosChange} />
         {albumPreviews.length > 0 && (
