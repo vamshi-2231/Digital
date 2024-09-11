@@ -78,7 +78,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg bg-white navbar-light fixed-top shadow py-lg-0 px-4 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-      <a href="/" className="navbar-brand d-block d-lg-none">
+      <a href="" className="navbar-brand d-block d-lg-none">
         <h1 className="text-primary">Ayyappa Digitals</h1>
       </a>
       <button type="button" className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -90,7 +90,7 @@ export default function Navbar() {
           <a href="#about" className="nav-item nav-link" onClick={(e) => scrollToSection(e, 'about')}>About</a>
           <a href="#services" className="nav-item nav-link" onClick={(e) => scrollToSection(e, 'services')}>Services</a>
         </div>
-        <a href="/" className="navbar-brand bg-primary py-2 px-4 mx-3 d-none d-lg-block">
+        <a href="" className="navbar-brand bg-primary py-2 px-4 mx-3 d-none d-lg-block">
           <h1 className="text-white">Ayyappa Digitals</h1>
         </a>
         <div className="navbar-nav me-auto py-0">
