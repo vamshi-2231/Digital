@@ -24,7 +24,7 @@
 }
 
 .sign-out-button {
-  background-color: #ff4d4d;
+  background-color: #EAA636;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -35,7 +35,7 @@
 }
 
 .sign-out-button:hover {
-  background-color: #e60000;
+  background-color: #EAA636;
 }
 
 .admin-content {
