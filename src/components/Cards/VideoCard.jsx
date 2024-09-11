@@ -27,6 +27,16 @@ const VideoCard = ({ item, onDelete, fetchCollection, onMessage }) => {
     }
   };
 
+  const isYouTubeUrl = (url) => {
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/;
+    return youtubeRegex.test(url);
+  };
+
+  const getYouTubeEmbedUrl = (url) => {
+    const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+  };
+
   return (
     <div className="video-card">
       {isEditing ? (
@@ -43,7 +53,18 @@ const VideoCard = ({ item, onDelete, fetchCollection, onMessage }) => {
         </>
       ) : (
         <>
-          <video controls src={item.url} style={{ width: "100%", height: "auto" }} />
+          {isYouTubeUrl(item.url) ? (
+            <iframe
+              className="embed-responsive-item"
+              src={getYouTubeEmbedUrl(item.url)}
+              id="video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ width: "100%", height: "auto" }}
+            ></iframe>
+          ) : (
+            <video controls src={item.url} style={{ width: "100%", height: "auto" }} />
+          )}
           <div className="video-card-buttons">
             <button onClick={() => setIsEditing(true)} className="edit-button">Edit</button>
             <button onClick={() => onDelete(item.id)} className="delete-button">Delete</button>

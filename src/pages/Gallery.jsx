@@ -1,30 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from "../config/firebase"; // Firestore config
 
 export default function Gallery() {
   const navigate = useNavigate();
-  
-  const photos = [
-    {
-      id: 1,
-      title: "Beautiful Landscape",
-      imgSrc: "https://picsum.photos/300/200", // Replace with your image URL
-    },
-    {
-      id: 2,
-      title: "City Skyline",
-      imgSrc: "https://picsum.photos/300/200", // Replace with your image URL
-    },
-    {
-      id: 3,
-      title: "Mountain View",
-      imgSrc: "https://picsum.photos/300/200", // Replace with your image URL
-    },
-    // Add more photos as needed
-  ];
+  const [galleries, setGalleries] = useState([]);
+
+  // Fetch galleries from Firestore
+  useEffect(() => {
+    const fetchGalleries = async () => {
+      try {
+        const galleryCollection = collection(db, "gallery");
+        const gallerySnapshot = await getDocs(galleryCollection);
+        const galleryList = gallerySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setGalleries(galleryList);
+      } catch (err) {
+        console.error("Error fetching galleries: ", err);
+      }
+    };
+    
+    fetchGalleries();
+  }, []);
 
   const handleViewAlbum = (id) => {
-    navigate(`/gallery/album/${id}`); // Navigate to album page
+    navigate(`/gallery/album/${id}`); // Navigate to album page with gallery ID
   };
 
   const handleGoBack = () => {
@@ -36,12 +39,7 @@ export default function Gallery() {
       {/* Go Back Button */}
       <button 
         onClick={handleGoBack} 
-        style={{ 
-          margin: '20px', 
-          padding: '10px 20px', 
-          fontSize: '16px', 
-          cursor: 'pointer' 
-        }}
+        style={{ margin: '20px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
       >
         Go Back
       </button>
@@ -49,20 +47,19 @@ export default function Gallery() {
       {/* Gallery Grid */}
       <div className="container">
         <div className="row">
-          {photos.map(photo => (
-            <div className="col-md-4" key={photo.id}>
+          {galleries.map((gallery) => (
+            <div className="col-md-4" key={gallery.id}>
               <div className="card mb-4 shadow-sm">
-                <img src={photo.imgSrc} className="card-img-top" alt={photo.title} />
+                <img src={gallery.coverImageUrl} className="card-img-top" alt={gallery.title} />
                 <div className="card-body">
-                  <h5 className="card-title">{photo.title}</h5>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <button 
-                      onClick={() => handleViewAlbum(photo.id)} 
-                      className="btn btn-primary"
-                    >
-                      View Album
-                    </button>
-                  </div>
+                  <h5 className="card-title">{gallery.title}</h5>
+                  <p className="card-text">{gallery.name}</p>
+                  <button 
+                    onClick={() => handleViewAlbum(gallery.id)} 
+                    className="btn btn-primary"
+                  >
+                    View Album
+                  </button>
                 </div>
               </div>
             </div>
