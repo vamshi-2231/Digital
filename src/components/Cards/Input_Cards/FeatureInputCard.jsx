@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../Card_styles/FeatureInputCard.css";
+import "../Card_styles/InputCard.css";
 
 function FeatureInputCard({ onCreate, isLoading }) {
   const [newFeature, setNewFeature] = useState({ title: "" });

@@ -1,0 +1,80 @@
+.gallery-input-card {
+    background-color: #ffffff; /* White background for input card */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 350px; /* Slightly wider card */
+    transition: transform 0.2s; /* Smooth scaling effect */
+    margin: 20px auto; /* Center the card with some margin */
+}
+
+.gallery-input-card:hover {
+    transform: scale(1.05); /* Scale up on hover */
+}
+
+.gallery-input-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px; /* Space below title */
+    text-align: center; /* Center the title */
+}
+
+.gallery-input-card-field {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 8px;
+    margin-bottom: 15px; /* Space between fields */
+    border: 1px solid #ddd; /* Border for input fields */
+    border-radius: 5px; /* Rounded corners for input fields */
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-input-card-field label {
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: bold;
+}
+
+.gallery-input-card-field input[type="text"],
+.gallery-input-card-field input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.gallery-input-card-button {
+    padding: 10px 15px;
+    background-color: #EAA636; /* Blue background for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%; /* Full width button */
+    margin-top: 10px;
+}
+
+.gallery-input-card-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.gallery-input-card-button:disabled {
+    background-color: #d6d6d6; /* Gray background when disabled */
+    cursor: not-allowed;
+}
+
+.image-preview img {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.album-previews {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.album-previews .image-preview {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

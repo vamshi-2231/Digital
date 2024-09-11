@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../Card_styles/GalleryInputCard.css'
 
 const GalleryInputCard = ({ onCreate, isLoading }) => {
   const [coverPhoto, setCoverPhoto] = useState(null);
