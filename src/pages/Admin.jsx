@@ -40,9 +40,6 @@ function AdminPage() {
   return (
     <div className="admin-page">
       <header className="admin-header">
-        {message && (
-          <div className="message">{message}</div>
-        )}
         {user ? (
           <div className="auth-card">
             <p className="welcome-message">Welcome, {user.email}</p>
@@ -57,34 +54,41 @@ function AdminPage() {
           />
         )}
       </header>
-      {user && (
-        <div className="admin-content">
-          <div className="manager-switch">
-            <button onClick={() => setCurrentManager("cardManager")}>
-              Manage Cards
-            </button>
-            <button onClick={() => setCurrentManager("galleryCardManager")}>
-              Manage Gallery Cards
-            </button>
+
+      <div className="admin-content">
+        {message && (
+          <div className="message">{message}</div>
+        )}
+
+        {user && (
+          <div>
+            <div className="manager-switch">
+              <button onClick={() => setCurrentManager("cardManager")}>
+                Manage Cards
+              </button>
+              <button onClick={() => setCurrentManager("galleryCardManager")}>
+                Manage Gallery Cards
+              </button>
+            </div>
+
+            {currentManager === "cardManager" && (
+              <CardManager
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                onMessage={(msg) => setMessage(msg)}
+              />
+            )}
+
+            {currentManager === "galleryCardManager" && (
+              <GalleryCardManager
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                onMessage={(msg) => setMessage(msg)}
+              />
+            )}
           </div>
-
-          {currentManager === "cardManager" && (
-            <CardManager
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              onMessage={(msg) => setMessage(msg)}
-            />
-          )}
-
-          {currentManager === "galleryCardManager" && (
-            <GalleryCardManager
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              onMessage={(msg) => setMessage(msg)}
-            />
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
